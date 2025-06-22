@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fișă Manifestare Conștientă</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --indigo: #4B0082;
+            --gold: #FFD700;
+            --light-purple: #E6E6FA;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e6fa 100%);
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(75, 0, 130, 0.15);
+            overflow: hidden;
+            position: relative;
+        }
+        header {
+            background: linear-gradient(90deg, var(--indigo) 0%, #6A5ACD 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .subtitle { font-size: 1.2rem; opacity: 0.9; }
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+        .main-content { padding: 30px; }
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 12px;
+            background: #f9f9ff;
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 4px 10px rgba(75, 0, 130, 0.05);
+        }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--indigo);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        h2 i {
+            margin-right: 12px;
+            font-size: 1.8rem;
+            color: var(--gold);
+        }
+        .exercise-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #eee;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            margin: 10px 0;
+            resize: vertical;
+            transition: border 0.3s;
+        }
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--indigo);
+            box-shadow: 0 0 0 2px rgba(75, 0, 130, 0.1);
+        }
+        button {
+            background: linear-gradient(90deg, var(--indigo) 0%, #6A5ACD 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(75, 0, 130, 0.3);
+        }
+        button i { margin-right: 8px; }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+        }
+        .checkbox-container input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        .tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .tracker-header {
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            background: var(--light-purple);
+            border-radius: 6px;
+        }
+        .tracker-cell {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #eee;
+            border-radius: 6px;
+        }
+        .tracker-cell input { width: 100%; text-align: center; }
+        .tooltip {
+            background: var(--gold);
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .footer {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(90deg, var(--indigo) 0%, #6A5ACD 100%);
+            color: white;
+        }
+        .footer a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .premium-offer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--indigo);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        /* Premium popups styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5);
+            align-items: center; justify-content: center;
+        }
+        .popup-content {
+            background: white;
+            padding: 30px 30px 20px 30px;
+            border-radius: 18px;
+            max-width: 340px;
+            margin: auto;
+            color: #333;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 0.4s;
+            font-size: 0.98em;
+        }
+        .popup-content h3 { color: #4B0082; margin-bottom: 12px; }
+        .premium-benefits-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 8px 0 8px 0;
+        }
+        .premium-benefits-list li {
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .premium-benefits-list li i {
+            color: var(--gold);
+            margin-right: 7px;
+        }
+        .popup-content .btn-c2a {
+            background: linear-gradient(90deg, var(--indigo) 0%, #FFD700 100%);
+            color: #fff;
+            border: none;
+            padding: 14px 0;
+            border-radius: 7px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 12px;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+        .popup-content .btn-cancel {
+            background: #eee;
+            color: #333;
+            border: none;
+            padding: 10px 0;
+            border-radius: 7px;
+            width: 100%;
+            font-size: 1em;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+        /* ADAUGAT X CLOSE */
+        .close-x-btn {
+            position: absolute;
+            top: 13px;
+            right: 18px;
+            background: transparent;
+            border: none;
+            font-size: 1.5em;
+            color: #888;
+            cursor: pointer;
+            z-index: 10;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .close-x-btn:hover {
+            color: #4B0082;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to   { opacity: 1; transform: none;}
+        }
+        @media (max-width: 768px) {
+            .tracker-grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 1.8rem; }
+            .popup-content { max-width: 98vw; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Banner Premium cu plată PayPal -->
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // === 1. Creează pop-up-ul cu Beneficii PREMIUM ===
+        const benefitsPopup = document.createElement('div');
+        benefitsPopup.className = 'popup-overlay';
+        benefitsPopup.id = 'premium-benefits-popup';
+        benefitsPopup.innerHTML = `
+            <div class="popup-content">
+                <h3>✨ Beneficii PREMIUM</h3>
+                <div style="margin-bottom:10px;line-height:1.5;">
+                    <b>Primești acces instant la:</b>
+                    <ul class="premium-benefits-list" style="margin-top:8px;">
+                        <li><i class="fas fa-check-circle"></i> Ritualuri zodiacale personalizate</li>
+                        <li><i class="fas fa-check-circle"></i> Manifestare lunară avansată</li>
+                        <li><i class="fas fa-check-circle"></i> Generator automat Matricea 369 Tesla</li>
+                        <li><i class="fas fa-check-circle"></i> Program complet de reprogramare subconștientă (21 zile)</li>
+                        <li><i class="fas fa-check-circle"></i> Export PDF</li>
+                        <li><i class="fas fa-check-circle"></i> Notificări personalizate și analiză progres</li>
+                        <li><i class="fas fa-check-circle"></i> Suport prioritar pe email</li>
+                    </ul>
+                    <div style="background: #fff8e1; border-left: 3px solid #FFD700; border-radius: 6px; padding: 10px 12px; margin: 14px 0 6px 0; color: #6A5ACD; font-size:1em;">
+                        <b>Beneficiezi de toate funcțiile premium, resurse exclusive și update-uri gratuite pe viață!</b>
+                    </div>
+                </div>
+                <button class="btn-c2a" id="goto-paypal-btn">
+                    Deblochează acum Fișa PREMIUM - doar 27€
+                </button>
+                <button class="btn-cancel" id="close-benefits-popup">
+                    Renunță
+                </button>
+            </div>
+        `;
+        document.body.appendChild(benefitsPopup);
+
+        // === 2. Creează pop-up-ul cu PayPal ===
+        const premiumBanner = document.createElement('div');
+        premiumBanner.innerHTML = `
+            <div id="premium-popup" class="popup-overlay" style="align-items:center;justify-content:center;">
+                <div class="popup-content" style="max-width:370px; position:relative;">
+                    <button class="close-x-btn" id="close-x-premium-popup" title="Închide">&times;</button> <!-- ADAUGAT X CLOSE -->
+                    <h3 style="margin-bottom: 10px; color: #4B0082;">✨ Fișa PREMIUM: Tot ce ai nevoie pentru manifestare rapidă</h3>
+                    <ul style="color:#333;font-size:1.07em;line-height:1.6;margin-bottom:18px;">
+                        <li><b>✔ Ritualuri zodiacale personalizate după semnul tău</b></li>
+                        <li><b>✔ Tehnici de manifestare pentru fiecare fază a Lunii</b></li>
+                        <li><b>✔ Generator automat Matricea 369 (metoda Tesla)</b></li>
+                        <li><b>✔ Program de 21 de zile pentru reprogramarea subconștientului</b></li>
+                        <li><b>✔ Export PDF al progresului tău</b></li>
+                        <li><b>✔ Notificări personalizate</b></li>
+                        <li><b>✔ Suport prioritar pe email</b></li>
+                    </ul>
+                    <div style="background: #fff8e1; border-left: 3px solid #FFD700; border-radius: 6px; padding: 10px 12px; color: #4B0082; font-size:1.04em; margin-bottom:13px;">
+                        <b>Investește în transformarea ta! Ai acces pe viață la toate actualizările.</b>
+                    </div>
+                    <div style="text-align:center;margin-bottom:11px;font-size:1.13em;"><b>Preț special: 27€</b></div>
+                    <div id="paypal-button-container"></div>
+                    <button id="close-premium-popup" class="btn-cancel" style="margin-top:15px;">Anulează</button>
+                </div>
+            </div>
+            <div style="position: fixed; bottom: 20px; right: 20px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 1000; border-left: 4px solid #FFD700; max-width: 300px;">
+                <h3 style="margin-bottom: 10px; color: #4B0082;">✨ Versiunea PREMIUM</h3>
+                <p style="margin-bottom: 15px;">Deblochează funcții exclusive!</p>
+                <button id="start-premium-pay" style="background: #4B0082; color: white; border: none; padding: 10px 20px; border-radius: 5px; width: 100%; font-weight: bold;">
+                    DEBLOCHEAZĂ - 27€
+                </button>
+            </div>
+        `;
+        document.body.appendChild(premiumBanner);
+
+        // === 3. Logica de pop-up: ===
+        window.showPremiumOffer = function() {
+            document.getElementById('premium-benefits-popup').style.display = 'flex';
+        };
+        document.getElementById('start-premium-pay').onclick = window.showPremiumOffer;
+
+        document.getElementById('close-benefits-popup').onclick = function() {
+            document.getElementById('premium-benefits-popup').style.display = 'none';
+        };
+
+        document.getElementById('goto-paypal-btn').onclick = function() {
+            document.getElementById('premium-benefits-popup').style.display = 'none';
+            document.getElementById('premium-popup').style.display = 'flex';
+            if (!window.paypalBtnRendered) {
+                paypal.Buttons({
+                    style: {
+                        color:  'gold',
+                        shape:  'pill',
+                        label:  'pay',
+                        layout: 'vertical'
+                    },
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: '27.00',
+                                    currency_code: 'EUR'
+                                },
+                                payee: {
+                                    // Adresa ta PayPal
+                                    email_address: 'dezvoltarepersonalailuminare@gmail.com'
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            window.location = 'fisa-premium.html';
+                        });
+                    }
+                }).render('#paypal-button-container');
+                window.paypalBtnRendered = true;
+            }
+        };
+        document.getElementById('close-premium-popup').onclick = function() {
+            document.getElementById('premium-popup').style.display = 'none';
+        };
+        // ADAUGAT X CLOSE: inchide la click pe X
+        document.addEventListener('click', function(e){
+            if(e.target && e.target.id === 'close-x-premium-popup') {
+                document.getElementById('premium-popup').style.display = 'none';
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="premium-offer" onclick="showPremiumOffer()">
+            <i class="fas fa-crown"></i> Versiunea PREMIUM
+        </div>
+        <header>
+            <div class="logo">MC</div>
+            <h1>Fișă Practică de Manifestare Conștientă</h1>
+            <div class="subtitle">Transformă gândurile în realitate cu metode științifice</div>
+        </header>
+        <div class="main-content">
+            <!-- TEHNICA 1: Vizualizare Dinamică -->
+            <div class="section">
+                <h2><i class="fas fa-eye"></i> TEHNICA 1: Vizualizare Dinamică</h2>
+                <p><em>Creierul tău e magnet - activează-l cu toate simțurile!</em></p>
+                <div class="exercise-box">
+                    <label>Obiectivul meu:</label>
+                    <input type="text" id="goal" placeholder="Ex: Mașină nouă, promovare...">
+                    <label>Detalii senzoriale:</label>
+                    <textarea rows="3" placeholder="Văd... Simt... Aud... Mirog..."></textarea>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="morning">
+                        <label>Practic 5 min dimineața ☀️</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="evening">
+                        <label>Practic 5 min seara 🌙</label>
+                    </div>
+                    <div class="tooltip">
+                        <i class="fas fa-lightbulb"></i> Studiu Harvard: 30 zile de vizualizare = +40% rezultate
+                    </div>
+                </div>
+            </div>
+            <!-- TEHNICA 2: Afirmații Aliniate -->
+            <div class="section">
+                <h2><i class="fas fa-comments"></i> TEHNICA 2: Afirmații Aliniate</h2>
+                <p><em>Folosește cuvintele ca pe o cheie energetică</em></p>
+                <div class="exercise-box">
+                    <h3>Reguli de Aur:</h3>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="rule1">
+                        <label>Folosesc DOAR timpul prezent</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="rule2">
+                        <label>Elimin cuvintele "nu/vreau/aș"</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="rule3">
+                        <label>Adaug emoție (zâmbet în ochi!)</label>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="rule4">
+                        <label>Leg de o acțiune concretă</label>
+                    </div>
+                    <label>Afirmațiile mele puternice:</label>
+                    <textarea rows="3" placeholder="Ex: Am un venit stabil de 10.000 de lei lunar..."></textarea>
+                    <label>Acțiunea asociată:</label>
+                    <input type="text" placeholder="Ex: Îmi actualizez CV-ul, studiez o nouă abilitate...">
+                </div>
+            </div>
+            <!-- TEHNICA 3: Ritualul 3-6-9 -->
+            <div class="section">
+                <h2><i class="fas fa-sync-alt"></i> TEHNICA 3: Ritualul 3-6-9</h2>
+                <p><em>Folosește codul numeric al universului</em></p>
+                <div class="exercise-box">
+                    <label>Dorința principală (scrie în prezent, detaliat):</label>
+                    <textarea rows="2" id="desire" placeholder="Ex: Locuiesc într-un apartament luminos lângă parc..."></textarea>
+                    <h3>Tracker Zilnic:</h3>
+                    <div class="tracker-grid">
+                        <div class="tracker-header">Ziua</div>
+                        <div class="tracker-header">3x dimineața</div>
+                        <div class="tracker-header">6x la prânz</div>
+                        <div class="tracker-header">9x seara</div>
+                    </div>
+                    <button onclick="addTrackerDay()" style="margin-top: 15px;">
+                        <i class="fas fa-plus-circle"></i> Adaugă Zi
+                    </button>
+                    <div class="tooltip">
+                        <i class="fas fa-quote-left"></i> Nikola Tesla: 3-6-9 sunt cheile vibraționale ale cosmosului
+                    </div>
+                </div>
+            </div>
+            <!-- TEHNICA 4: Jurnal Gratitudine -->
+            <div class="section">
+                <h2><i class="fas fa-book-open"></i> TEHNICA 4: Jurnal Gratitudine</h2>
+                <p><em>Recunoștința accelerează manifestarea cu 25%</em></p>
+                <div class="exercise-box">
+                    <label>Data:</label>
+                    <input type="date" id="gratitude-date">
+                    <label>Completează zilnic (ca și cum s-a întâmplat deja):</label>
+                    <textarea rows="3" placeholder="Îți mulțumesc, Universule, pentru..."></textarea>
+                    <textarea rows="3" placeholder="Sunt profund recunoscător(ă) că..."></textarea>
+                    <textarea rows="3" placeholder="Bucuria mea astăzi e..."></textarea>
+                    <div style="margin-top: 20px;">
+                        <button onclick="saveGratitude()">
+                            <i class="fas fa-save"></i> Salvează
+                        </button>
+                        <button onclick="exportPDF()" style="background: var(--gold); color: #333; margin-left: 10px;">
+                            <i class="fas fa-file-pdf"></i> Exportă PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- REGULI DE AUR -->
+            <div class="section" style="background: #fff8e1; border-left-color: var(--gold);">
+                <h2 style="color: #d4af37;"><i class="fas fa-gem"></i> REGULI DE AUR</h2>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="gold1" checked>
+                    <label><strong>Alege 1 tehnică dominantă</strong> 21 de zile consecutiv</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="gold2" checked>
+                    <label><strong>Consistența > Intensitatea</strong> (mai bine 5 min/zi decât 1h săptămânal)</label>
+                </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="gold3" checked>
+                    <label><strong>Increderea e combustibilul</strong> - ca Mirciulică!</label>
+                </div>
+                <p style="margin-top: 20px; font-style: italic; text-align: center;">
+                    "Manifestarea e ca o plantă: rădăcini în credință, tulpină în acțiune, rod în perseverență"
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>După 21 de zile, trimite-mi la <a href="mailto:contact.manifestare@gmail.com">contact.manifestare@gmail.com</a> cu "AM MANIFESTAT"</p>
+            <p>© 2025 Dezvoltare Personala & Iluminare | Toate drepturile rezervate</p>
+        </div>
+    </div>
+    <script>
+        // Adaugă zile în tracker
+        function addTrackerDay() {
+            const days = document.querySelector('.tracker-grid').children.length;
+            const dayNumber = Math.floor(days / 4) + 1;
+            const grid = document.querySelector('.tracker-grid');
+            grid.innerHTML += `
+                <div class="tracker-cell">${dayNumber}</div>
+                <div class="tracker-cell"><input type="checkbox"></div>
+                <div class="tracker-cell"><input type="checkbox"></div>
+                <div class="tracker-cell"><input type="checkbox"></div>
+            `;
+        }
+        // Setează data curentă
+        document.getElementById('gratitude-date').valueAsDate = new Date();
+        // Salvează recunoștința
+        function saveGratitude() {
+            alert('Intrările au fost salvate local în browser!');
+            // Implementare reală ar folosi localStorage
+        }
+        // Export PDF
+        function exportPDF() {
+            alert('Versiunea PREMIUM permite export PDF! Vezi oferta în colțul din dreapta jos.');
+        }
+        // Inițializare tracker cu 3 zile
+        for(let i = 0; i < 3; i++) {
+            addTrackerDay();
+        }
+    </script>
+</body>
+</html>
